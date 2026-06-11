@@ -28,7 +28,15 @@
 
 ## 快速开始
 
-### 1. 构建运行镜像
+### 1. 获取运行镜像
+
+直接使用已发布镜像：
+
+```bash
+docker pull jaceju68/glm-asr-stack:cuda12.8-runtime
+```
+
+也可以从源码构建：
 
 ```bash
 cd ./glm-asr-stack
@@ -55,7 +63,7 @@ mkdir -p /data/glm-asr-models
 
 docker run --rm --gpus all \
   -v /data/glm-asr-models:/opt/glm-asr-stack/models \
-  glm-asr-stack:cuda12.8-runtime \
+  jaceju68/glm-asr-stack:cuda12.8-runtime \
   download-model all
 ```
 
@@ -69,7 +77,7 @@ docker run --rm --gpus all \
 ```bash
 docker run --rm --gpus all \
   -v /data/glm-asr-models:/opt/glm-asr-stack/models \
-  glm-asr-stack:cuda12.8-runtime \
+  jaceju68/glm-asr-stack:cuda12.8-runtime \
   doctor
 ```
 
@@ -86,7 +94,7 @@ docker run --rm --gpus all \
   -v /data/glm-asr-models:/opt/glm-asr-stack/models \
   -v /path/to/video.mp4:/input/video.mp4:ro \
   -v /data/glm-asr-output:/output \
-  glm-asr-stack:cuda12.8-runtime \
+  jaceju68/glm-asr-stack:cuda12.8-runtime \
   transcribe /input/video.mp4 \
     --subtitle-mode sentence \
     --output /output/video.srt
@@ -99,7 +107,7 @@ docker run --rm --gpus all \
   -v /data/glm-asr-models:/opt/glm-asr-stack/models \
   -v /path/to/audio.mp3:/input/audio.mp3:ro \
   -v /data/glm-asr-output:/output \
-  glm-asr-stack:cuda12.8-runtime \
+  jaceju68/glm-asr-stack:cuda12.8-runtime \
   transcribe /input/audio.mp3 \
     --subtitle-mode word \
     --output /output/audio_words.srt
@@ -112,7 +120,7 @@ docker run --rm --gpus all \
   -v /data/glm-asr-models:/opt/glm-asr-stack/models \
   -v /path/to/audio.mp3:/input/audio.mp3:ro \
   -v /data/glm-asr-output:/output \
-  glm-asr-stack:cuda12.8-runtime \
+  jaceju68/glm-asr-stack:cuda12.8-runtime \
   asr-only /input/audio.mp3 \
     --output /output/transcript.tsv
 ```
@@ -138,7 +146,7 @@ docker run --rm --gpus all \
   -v /data/glm-asr-models:/opt/glm-asr-stack/models \
   -v /path/to/audio.mp3:/input/audio.mp3:ro \
   -v /data/glm-asr-output:/output \
-  glm-asr-stack:cuda12.8-runtime \
+  jaceju68/glm-asr-stack:cuda12.8-runtime \
   transcribe /input/audio.mp3 \
     --subtitle-mode sentence \
     --output /output/audio.srt
@@ -160,7 +168,7 @@ docker run --rm --gpus all \
   -v /data/glm-asr-models:/opt/glm-asr-stack/models \
   -v /path/to/audio.wav:/input/audio.wav:ro \
   -v /data/glm-asr-output:/output \
-  glm-asr-stack:cuda12.8-runtime \
+  jaceju68/glm-asr-stack:cuda12.8-runtime \
   transcribe /input/audio.wav \
     --prompt "Hot words: Claude Code, CUDA, FlashAttention." \
     --subtitle-mode sentence \
@@ -185,7 +193,7 @@ docker run --rm --gpus all \
 docker run --rm --gpus all \
   -v /data/glm-asr-models:/opt/glm-asr-stack/models \
   -v /data/glm-asr-output:/output \
-  glm-asr-stack:cuda12.8-runtime \
+  jaceju68/glm-asr-stack:cuda12.8-runtime \
   transcribe /opt/glm-asr-stack/samples/smoke_120s.wav \
     --subtitle-mode sentence \
     --output /output/smoke_120s.srt
