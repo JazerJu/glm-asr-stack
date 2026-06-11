@@ -33,7 +33,7 @@
 直接使用已发布镜像：
 
 ```bash
-docker pull jaceju68/glm-asr-stack:cuda12.8-runtime
+docker pull jaceju68/glm-asr-stack:cuda12.8-slim
 ```
 
 也可以从源码构建：
@@ -42,8 +42,8 @@ docker pull jaceju68/glm-asr-stack:cuda12.8-runtime
 cd ./glm-asr-stack
 
 docker build --network=host \
-  -f docker/Dockerfile.cuda12.8-runtime \
-  -t glm-asr-stack:cuda12.8-runtime .
+  -f docker/Dockerfile.cuda12.8-slim \
+  -t glm-asr-stack:cuda12.8-slim .
 ```
 
 如果你在本机用代理下载 CUDA / Python 包：
@@ -52,9 +52,12 @@ docker build --network=host \
 docker build --network=host \
   --build-arg http_proxy=http://127.0.0.1:7890 \
   --build-arg https_proxy=http://127.0.0.1:7890 \
-  -f docker/Dockerfile.cuda12.8-runtime \
-  -t glm-asr-stack:cuda12.8-runtime .
+  -f docker/Dockerfile.cuda12.8-slim \
+  -t glm-asr-stack:cuda12.8-slim .
 ```
+
+默认使用 slim 镜像，约 1.9GB。若你的环境需要完整 NVIDIA CUDA runtime，也可以改用
+`jaceju68/glm-asr-stack:cuda12.8-runtime`。
 
 ### 2. 下载模型
 
@@ -63,7 +66,7 @@ mkdir -p /data/glm-asr-models
 
 docker run --rm --gpus all \
   -v /data/glm-asr-models:/opt/glm-asr-stack/models \
-  jaceju68/glm-asr-stack:cuda12.8-runtime \
+  jaceju68/glm-asr-stack:cuda12.8-slim \
   download-model all
 ```
 
@@ -77,7 +80,7 @@ docker run --rm --gpus all \
 ```bash
 docker run --rm --gpus all \
   -v /data/glm-asr-models:/opt/glm-asr-stack/models \
-  jaceju68/glm-asr-stack:cuda12.8-runtime \
+  jaceju68/glm-asr-stack:cuda12.8-slim \
   doctor
 ```
 
@@ -94,7 +97,7 @@ docker run --rm --gpus all \
   -v /data/glm-asr-models:/opt/glm-asr-stack/models \
   -v /path/to/video.mp4:/input/video.mp4:ro \
   -v /data/glm-asr-output:/output \
-  jaceju68/glm-asr-stack:cuda12.8-runtime \
+  jaceju68/glm-asr-stack:cuda12.8-slim \
   transcribe /input/video.mp4 \
     --subtitle-mode sentence \
     --output /output/video.srt
@@ -107,7 +110,7 @@ docker run --rm --gpus all \
   -v /data/glm-asr-models:/opt/glm-asr-stack/models \
   -v /path/to/audio.mp3:/input/audio.mp3:ro \
   -v /data/glm-asr-output:/output \
-  jaceju68/glm-asr-stack:cuda12.8-runtime \
+  jaceju68/glm-asr-stack:cuda12.8-slim \
   transcribe /input/audio.mp3 \
     --subtitle-mode word \
     --output /output/audio_words.srt
@@ -120,7 +123,7 @@ docker run --rm --gpus all \
   -v /data/glm-asr-models:/opt/glm-asr-stack/models \
   -v /path/to/audio.mp3:/input/audio.mp3:ro \
   -v /data/glm-asr-output:/output \
-  jaceju68/glm-asr-stack:cuda12.8-runtime \
+  jaceju68/glm-asr-stack:cuda12.8-slim \
   asr-only /input/audio.mp3 \
     --output /output/transcript.tsv
 ```
@@ -146,7 +149,7 @@ docker run --rm --gpus all \
   -v /data/glm-asr-models:/opt/glm-asr-stack/models \
   -v /path/to/audio.mp3:/input/audio.mp3:ro \
   -v /data/glm-asr-output:/output \
-  jaceju68/glm-asr-stack:cuda12.8-runtime \
+  jaceju68/glm-asr-stack:cuda12.8-slim \
   transcribe /input/audio.mp3 \
     --subtitle-mode sentence \
     --output /output/audio.srt
@@ -168,7 +171,7 @@ docker run --rm --gpus all \
   -v /data/glm-asr-models:/opt/glm-asr-stack/models \
   -v /path/to/audio.wav:/input/audio.wav:ro \
   -v /data/glm-asr-output:/output \
-  jaceju68/glm-asr-stack:cuda12.8-runtime \
+  jaceju68/glm-asr-stack:cuda12.8-slim \
   transcribe /input/audio.wav \
     --prompt "Hot words: Claude Code, CUDA, FlashAttention." \
     --subtitle-mode sentence \
@@ -193,7 +196,7 @@ docker run --rm --gpus all \
 docker run --rm --gpus all \
   -v /data/glm-asr-models:/opt/glm-asr-stack/models \
   -v /data/glm-asr-output:/output \
-  jaceju68/glm-asr-stack:cuda12.8-runtime \
+  jaceju68/glm-asr-stack:cuda12.8-slim \
   transcribe /opt/glm-asr-stack/samples/smoke_120s.wav \
     --subtitle-mode sentence \
     --output /output/smoke_120s.srt
