@@ -1,0 +1,19 @@
+# Build artifacts
+*.o
+*.so
+*.bin
+*.elf
+*.a
+fa2_*_fatbin.bin
+fa2_*_cubin.elf
+
+# Test binaries and sources
+test_*
+
+# Build intermediates
+patched*
+artifacts/
+__pycache__/
+
+# Legacy
+fa_sm80_*.o

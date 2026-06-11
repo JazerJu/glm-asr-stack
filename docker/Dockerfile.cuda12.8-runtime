@@ -1,0 +1,40 @@
+FROM nvidia/cuda:12.8.1-runtime-ubuntu22.04
+
+ARG http_proxy
+ARG https_proxy
+ARG HTTP_PROXY
+ARG HTTPS_PROXY
+ARG no_proxy
+ARG NO_PROXY
+
+ENV DEBIAN_FRONTEND=noninteractive \
+    GLM_ASR_STACK_ROOT=/opt/glm-asr-stack \
+    HF_HOME=/root/.cache/huggingface \
+    NVIDIA_VISIBLE_DEVICES=all \
+    NVIDIA_DRIVER_CAPABILITIES=compute,utility \
+    PATH=/opt/glm-asr-stack/bin:${PATH} \
+    LD_LIBRARY_PATH=/opt/glm-asr-stack/lib:/usr/local/cuda/lib64
+
+# The CUDA runtime base image provides cudart, cuBLAS/Lt, and cuFFT.
+# The host NVIDIA driver provides libcuda.so through nvidia-container-toolkit.
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends \
+      ca-certificates python3 python3-pip ffmpeg tini \
+    && python3 -m pip install --no-cache-dir --upgrade pip \
+    && python3 -m pip install --no-cache-dir \
+      huggingface_hub transformers tokenizers sentencepiece \
+    && rm -rf /var/lib/apt/lists/* /tmp/* /root/.cache/pip
+
+COPY . /opt/glm-asr-stack
+WORKDIR /opt/glm-asr-stack
+
+RUN chmod +x /opt/glm-asr-stack/bin/* \
+    && mkdir -p /opt/glm-asr-stack/runtime/output /opt/glm-asr-stack/runtime/work_dir \
+    && rm -rf /opt/glm-asr-stack/runtime/output/* \
+      /opt/glm-asr-stack/runtime/work_dir/* \
+      /opt/glm-asr-stack/runtime/tasks/* \
+      /opt/glm-asr-stack/runtime/live_sessions/* \
+    && find /opt/glm-asr-stack -type d -name __pycache__ -prune -exec rm -rf {} +
+
+ENTRYPOINT ["/usr/bin/tini", "--", "glm-asr"]
+CMD ["help"]

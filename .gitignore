@@ -1,0 +1,12 @@
+runtime/work_dir/
+runtime/output/
+runtime/tasks/
+runtime/live_sessions/
+models/glm-asr-bf16
+models/qwen3-forcealigner-0.6b
+__pycache__/
+**/__pycache__/
+*.pyc
+*.tar.gz
+*.log
+.DS_Store

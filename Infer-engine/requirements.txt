@@ -1,0 +1,11 @@
+numpy
+pyarrow
+soundfile
+datasets
+huggingface_hub
+cuda-python
+apache-tvm-ffi
+nvidia-cutlass-dsl
+nvidia-cutlass-dsl-libs-base
+quack-kernels
+vllm==0.18.0

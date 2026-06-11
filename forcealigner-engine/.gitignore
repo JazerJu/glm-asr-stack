@@ -1,0 +1,10 @@
+build/
+*.o
+*.a
+*.so
+*.d
+__pycache__/
+*.pyc
+force_aligner
+mel_filterbank.bin
+force-aligner/
